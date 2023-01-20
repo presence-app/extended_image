@@ -26,7 +26,7 @@ final PageMetrics _testPageMetrics = PageMetrics(
   viewportDimension: 10,
   viewportFraction: 1.0,
   // added devicePixelRatio to fix build issue with flutter masteer
-  devicePixelRatio: 96,
+  devicePixelRatio: WidgetsBinding.instance.window.devicePixelRatio,
 );
 
 /// whether should scoll page

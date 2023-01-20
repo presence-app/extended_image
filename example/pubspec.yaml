@@ -8,7 +8,7 @@ environment:
   flutter: '>=3.3.0'
 dependencies:
   extended_sliver: ^2.0.1
-  extended_text: ^9.0.0
+  extended_text: ^9.1.2
   ff_annotation_route_library: ^3.0.0
   fl_chart: ^0.55.1
   flutter:
