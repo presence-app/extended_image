@@ -76,6 +76,8 @@ class ExtendedImageSlidePageHandlerState
   void _handleScaleUpdate(ScaleUpdateDetails details) {
     ///whether gesture page
     if (_extendedImageSlidePageState != null && details.scale == 1.0) {
+      //var offsetDelta = (details.focalPoint - _startingOffset);
+
       final double delta = (details.focalPoint - _startingOffset).distance;
 
       if (delta.greaterThan(minGesturePageDelta)) {

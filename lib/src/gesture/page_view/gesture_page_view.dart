@@ -1,13 +1,11 @@
 import 'package:extended_image/extended_image.dart';
-
-import 'package:extended_image/src/gesture_detector/official.dart';
-
+import 'package:extended_image/src/gesture_detector/drag.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-export 'page_controller/official.dart';
 export 'rendering/sliver_fill.dart';
+export 'widgets/page_controller.dart';
 export 'widgets/sliver_fill.dart';
 
 part 'widgets/page_view.dart';
@@ -20,17 +18,15 @@ final ExtendedPageController _defaultPageController = ExtendedPageController();
 const PageScrollPhysics _kPagePhysics = PageScrollPhysics();
 const ScrollPhysics _defaultScrollPhysics = NeverScrollableScrollPhysics();
 
-PageMetrics _getTestPageMetrics(BuildContext context) {
-  return PageMetrics(
-    axisDirection: AxisDirection.down,
-    minScrollExtent: 0,
-    maxScrollExtent: 10,
-    pixels: 5,
-    viewportDimension: 10,
-    viewportFraction: 1.0,
-    devicePixelRatio: View.of(context).devicePixelRatio,
-  );
-}
+final PageMetrics _testPageMetrics = PageMetrics(
+  axisDirection: AxisDirection.down,
+  minScrollExtent: 0,
+  maxScrollExtent: 10,
+  pixels: 5,
+  viewportDimension: 10,
+  viewportFraction: 1.0,
+  devicePixelRatio: WidgetsBinding.instance.window.devicePixelRatio,
+);
 
 /// whether should scoll page
 bool _defaultCanScrollPage(GestureDetails? gestureDetails) => true;
@@ -194,7 +190,6 @@ class ExtendedImageGesturePageViewState
   @override
   void initState() {
     super.initState();
-
     _gestureAnimation = GestureAnimation(this, offsetCallBack: (Offset value) {
       final GestureDetails? gestureDetails =
           extendedImageGestureState?.gestureDetails;
@@ -215,10 +210,10 @@ class ExtendedImageGesturePageViewState
             widget.controller.shouldIgnorePointerWhenScrolling) {
       bool canMove = true;
 
-      // user's physics
+      ///user's physics
       if (widget.physics.parent != null) {
-        canMove = widget.physics.parent!
-            .shouldAcceptUserOffset(_getTestPageMetrics(context));
+        canMove =
+            widget.physics.parent!.shouldAcceptUserOffset(_testPageMetrics);
       }
       if (canMove) {
         switch (widget.scrollDirection) {
@@ -331,8 +326,7 @@ class ExtendedImageGesturePageViewState
     );
 
     if (widget.physics.parent == null ||
-        widget.physics.parent!
-            .shouldAcceptUserOffset(_getTestPageMetrics(context))) {
+        widget.physics.parent!.shouldAcceptUserOffset(_testPageMetrics)) {
       result = RawGestureDetector(
         gestures: _gestureRecognizers,
         behavior: HitTestBehavior.opaque,
